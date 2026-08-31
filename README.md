@@ -1,5 +1,5 @@
 # urban-motorway-traffic-analytics
-A multi-class vehicle detection, classification, and trajectory tracking system optimized for urban motorway traffic telemetry using Roboflow and custom spatial filters.
+A multi-class vehicle detection, classification, and trajectory-tracking system optimised for urban motorway traffic telemetry, using Roboflow and custom spatial filters.
 
 
 # Urban Motorway Vehicle Detection, Classification & Tracking System
@@ -35,7 +35,7 @@ graph TD
 
 ##  2. Dataset Architecture & Class Engineering (Roboflow)
 
-The machine learning core utilizes a highly refined custom model trained and versioned through **Roboflow** across a dataset lifecycle of **852 high-resolution highway images**.
+The machine learning core utilises a highly refined custom model, trained and versioned via **Roboflow**, on a dataset of **852 high-resolution highway images**.
 
 ### Targeted Transportation Classes
 * **Car**: Standard passenger vehicles and compact personal transports.
