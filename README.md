@@ -1,22 +1,34 @@
-# urban-motorway-traffic-analytics
-A multi-class vehicle detection, classification, and trajectory-tracking system optimised for urban motorway traffic telemetry, using Roboflow and custom spatial filters.
+#YOLOv8 Object Detection with DeepSORT Tracking - Training Process Explanation
+#Overview
+This notebook implements a complete pipeline for training a custom object detection model using YOLOv8 and integrating it with DeepSORT for multi-object tracking. The workflow is designed for computer vision applications requiring real-time detection and tracking of vehicles and objects.
 
+#Step-by-Step Training Process
+1. Environment Setup
+GPU Configuration: The notebook requires GPU runtime (Tesla T4 in this case) for efficient training
 
-# Urban Motorway Vehicle Detection, Classification & Tracking System
+Repository Cloning: Clones the YOLOv8-DeepSORT-Object-Tracking repository from GitHub
 
-**An enterprise-grade computer vision and traffic intelligence system designed to execute real-time multi-class vehicle localization, classification, and lane-specific trajectory tracking on high-velocity motorways.**
+Dependency Installation: Installs all required packages using pip install -e '.[dev]'
 
----
+2. Dataset Acquisition
+Roboflow Integration: Downloads a custom dataset from Roboflow (workspace: "drone-dataset-mvh8i", project: "detection-bzujh")
 
-> **Portfolio Disclaimer:** This repository serves as a sanitized, public-facing case study and architectural blueprint of a private traffic analytics deployment. To comply with privacy standards, proprietary video datasets, local database configurations, and active Roboflow workspace credentials have been securely omitted.
+Dataset Format: YOLOv5 format with ~4,051 training images and 619 validation images
 
----
+Classes Detected: 10 categories including:
 
-##  1. The Operational Challenge & Core Logic
+boat, camping car, car, motorcycle, other, pickup, plane, tractor, truck, van
 
-Managing modern highway traffic networks requires precise, automated asset auditing. Traditional inductive loop detectors embedded in roads are expensive to maintain, easily damaged, and completely unable to categorize vehicles into granular, specific transport groups.
+3. DeepSORT Setup
+Downloads and extracts DeepSORT tracking files including:
 
-This project solves this bottleneck by turning standard highway CCTV feeds into active telemetry matrices. The system parses frames, handles class variations (such as highly variable logistics patterns between commercial lorries and small tricycles), and generates real-time vehicle flow metrics.
+Feature extractor model (ckpt.t7)
+
+Kalman filter implementation
+
+Hungarian algorithm for assignment
+
+Configuration files
 
 ### System Architecture Flow
 ```mermaid
