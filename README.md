@@ -1,8 +1,8 @@
-#YOLOv8 Object Detection with DeepSORT Tracking - Training Process Explanation
-#Overview
+YOLOv8 Object Detection with DeepSORT Tracking - Training Process Explanation
+Overview
 This notebook implements a complete pipeline for training a custom object detection model using YOLOv8 and integrating it with DeepSORT for multi-object tracking. The workflow is designed for computer vision applications requiring real-time detection and tracking of vehicles and objects.
 
-#Step-by-Step Training Process
+Step-by-Step Training Process
 1. Environment Setup
 GPU Configuration: The notebook requires GPU runtime (Tesla T4 in this case) for efficient training
 
