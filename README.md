@@ -1,5 +1,7 @@
+'''
 #YOLOv8 + DeepSORT: Custom Object Detection & Multi-Object Tracking
 End-to-end computer vision pipeline for real-time object detection and multi-object tracking using YOLOv8-Large and DeepSORT, trained on a custom 10-class vehicle dataset.
+'''
 
 ### System Architecture Flow
 ```mermaid
