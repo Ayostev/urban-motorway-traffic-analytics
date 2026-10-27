@@ -1,34 +1,5 @@
-#YOLOv8 Object Detection with DeepSORT Tracking - Training Process Explanation
-#Overview
-This notebook implements a complete pipeline for training a custom object detection model using YOLOv8 and integrating it with DeepSORT for multi-object tracking. The workflow is designed for computer vision applications requiring real-time detection and tracking of vehicles and objects.
-
-#Step-by-Step Training Process
-1. Environment Setup
-GPU Configuration: The notebook requires GPU runtime (Tesla T4 in this case) for efficient training
-
-Repository Cloning: Clones the YOLOv8-DeepSORT-Object-Tracking repository from GitHub
-
-Dependency Installation: Installs all required packages using pip install -e '.[dev]'
-
-2. Dataset Acquisition
-Roboflow Integration: Downloads a custom dataset from Roboflow (workspace: "drone-dataset-mvh8i", project: "detection-bzujh")
-
-Dataset Format: YOLOv5 format with ~4,051 training images and 619 validation images
-
-Classes Detected: 10 categories including:
-
-boat, camping car, car, motorcycle, other, pickup, plane, tractor, truck, van
-
-3. DeepSORT Setup
-Downloads and extracts DeepSORT tracking files including:
-
-Feature extractor model (ckpt.t7)
-
-Kalman filter implementation
-
-Hungarian algorithm for assignment
-
-Configuration files
+YOLOv8 + DeepSORT: Custom Object Detection & Multi-Object Tracking
+End-to-end computer vision pipeline for real-time object detection and multi-object tracking using YOLOv8-Large and DeepSORT, trained on a custom 10-class vehicle dataset.
 
 ### System Architecture Flow
 ```mermaid
