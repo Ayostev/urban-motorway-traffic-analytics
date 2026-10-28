@@ -1,99 +1,186 @@
-```markdown
-# YOLOv8 + DeepSORT: Custom Object Detection & Multi-Object Tracking
+# YOLOv8 + DeepSORT Object Tracking
 
-End-to-end computer vision pipeline for **real-time object detection** and **multi-object tracking** using **YOLOv8-Large** and **DeepSORT**, trained on a custom 10-class vehicle dataset.
+Real-time object detection and multi-object tracking on a custom vehicle dataset, powered by YOLOv8-Large and DeepSORT.
 
-![Python](https://img.shields.io/badge/Python-3.8-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-1.13-orange)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-1.13%2B-orange)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Large-red)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-active-success)
 
 ---
 
-## 📌 Overview
+## Table of Contents
 
-This project implements a complete pipeline for detecting and tracking multiple objects (vehicles) in video streams. It combines:
+- [Overview](#overview)
+- [Key Results](#key-results)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Training](#training)
+  - [Tracking](#tracking)
+- [Dataset](#dataset)
+- [Project Structure](#project-structure)
+- [Metrics](#metrics)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
+
+---
+
+## Overview
+
+This repository provides an end-to-end computer vision pipeline for detecting and tracking multiple objects in video streams. It combines:
 
 - **YOLOv8-Large** for high-accuracy object detection
 - **DeepSORT** for persistent multi-object tracking across frames
-- **Kalman Filtering + Hungarian Algorithm** for motion prediction and track association
-- **ResNet-based deep appearance features** for re-identification
+- **Kalman filtering** and the **Hungarian algorithm** for motion prediction and track association
+- **ResNet-based deep appearance features** for robust re-identification
 
----
+The model was trained on a custom 7-class vehicle dataset to detect and track buses, cars, motorcycles, pickups, tricycles, trucks, and vans in real-world traffic footage.
 
-## 🎯 Key Results
+## Key Results
 
 | Metric | Value |
-|--------|-------|
-| **mAP@0.5** | **76.6%** |
-| **mAP@0.5:0.95** | **41.7%** |
-| **Precision** | 81.6% |
-| **Recall** | 67.2% |
-| **Inference Speed** | ~16.4 ms/image (Tesla T4) |
-| **Training Time** | ~3.1 hours (50 epochs) |
+|---|---|
+| mAP@0.5 | **65.0%** |
+| mAP@0.5:0.95 | **55.3%** |
+| Training Epochs | 200 |
+| Model Size | YOLOv8-Large (43.6M parameters) |
+| Dataset Size | 1,200 images |
+| Classes | 7 |
 
-### Per-Class Performance (Validation Set)
+## Getting Started
 
-| Class | Precision | Recall | mAP@0.5 |
-|-------|-----------|--------|---------|
-| car | 0.881 | 0.917 | **0.910** |
-| motorcycle | 0.876 | 0.678 | 0.842 |
-| pickup | 0.773 | 0.660 | 0.723 |
-| van | 0.832 | 0.658 | 0.701 |
-| truck | 0.674 | 0.560 | 0.627 |
-| camping car | 0.866 | 0.667 | 0.735 |
-| tractor | 1.000 | 0.481 | 0.737 |
-| boat | 0.472 | 1.000 | 0.995 |
-| plane | 0.891 | 1.000 | 0.995 |
-| other | 0.321 | 0.250 | 0.373 |
+### Prerequisites
 
----
+- Python 3.8 or higher
+- CUDA-compatible GPU (tested on NVIDIA Tesla T4)
+- Git
+- pip
 
-## 🛠️ Tech Stack
+### Installation
 
-- **Detection Model:** YOLOv8-Large (43.6M params, 165.4 GFLOPs)
-- **Tracking:** DeepSORT (Kalman filter + deep appearance features)
-- **Framework:** PyTorch, Ultralytics
-- **Hardware:** NVIDIA Tesla T4 GPU
-- **Dataset:** 4,051 training / 619 validation images (10 classes)
-- **Dataset Source:** Custom dataset hosted on [Roboflow](https://roboflow.com)
+1. Install the dependencies:
 
----
+```bash
+pip install -e '.[dev]'
+```
 
-## 📂 Dataset
-
-- **Classes (10):** `boat`, `camping car`, `car`, `motorcycle`, `other`, `pickup`, `plane`, `tractor`, `truck`, `van`
-- **Split:** ~4,051 train / 619 valid images
-- **Format:** YOLOv5 (YOLOv8-compatible) format
-- **Source:** Roboflow — workspace `drone-dataset-mvh8i`, project `detection-bzujh`
-
----
-
-## 🚀 Pipeline
-
-### 1. Environment Setup
-- Enable **GPU runtime** (CUDA)
-- Clone the `YOLOv8-DeepSORT-Object-Tracking` repository
-- Install dependencies: `pip install -e '.[dev]'`
-
-### 2. Dataset Acquisition
-- Pull the custom dataset from Roboflow using the `roboflow` Python SDK
-- Data auto-formatted for YOLOv8 training
-
-### 3. DeepSORT Setup
-- Download and extract DeepSORT files, including:
-  - `ckpt.t7` — pretrained feature extractor
-  - Kalman filter & Hungarian assignment modules
-  - `deep_sort.yaml` config
-
-### 4. Model Training
-
-**Training Configuration:**
+2. Download the DeepSORT feature extractor (`ckpt.t7`) and place it in:
 
 ```text
-Model       : yolov8l.pt (pretrained on COCO)
-Epochs      : 50
-Image Size  : 640 x 640
-Batch Size  : 16
-Optimizer   : SGD (lr = 0.01)
-Device      : NVIDIA Tesla T4 (CUDA)
+ultralytics/yolo/v8/detect/deep_sort_pytorch/deep_sort/deep/checkpoint/
+```
+
+## Usage
+
+### Training
+
+Train the YOLOv8-Large model on your dataset:
+
+```bash
+python train.py \
+  model=yolov8l.pt \
+  data=/path/to/data.yaml \
+  epochs=200 \
+  imgsz=640
+```
+
+Key training parameters used in this project:
+
+| Parameter | Value |
+|---|---|
+| Model | `yolov8l.pt` |
+| Epochs | 200 |
+| Image Size | 640 |
+| Batch Size | 16 |
+| Optimizer | SGD (lr = 0.01) |
+
+### Tracking
+
+Run detection + tracking on a video source:
+
+```bash
+python predict.py \
+  model=runs/detect/train/weights/best.pt \
+  source=path/to/video.mp4 \
+  show=True
+```
+
+## Dataset
+
+| Attribute | Value |
+|---|---|
+| Classes | 7 (`bus`, `car`, `motorcycle`, `pickup`, `tricycle`, `truck`, `van`) |
+| Total Images | 1,200 |
+| Train / Test / Val Split | 70% / 20% / 10% |
+| Format | YOLOv5 / YOLOv8 |
+| Source | [Roboflow](https://roboflow.com) |
+
+## Project Structure
+
+```text
+YOLOv8-DeepSORT-Object-Tracking/
+├── ultralytics/
+│   └── yolo/v8/detect/
+│       ├── deep_sort_pytorch/
+│       │   ├── configs/
+│       │   ├── deep_sort/
+│       │   └── utils/
+│       ├── train.py
+│       ├── predict.py
+│       └── detection-1/
+├── runs/detect/train/
+│   ├── weights/
+│   │   ├── best.pt
+│   │   └── last.pt
+│   ├── confusion_matrix.png
+│   ├── results.png
+│   ├── PR_curve.png
+│   └── val_batch*_pred.jpg
+├── notebooks/
+│   └── YOLOv8_Detection_Tracking_CustomData_Complete.ipynb
+└── README.md
+```
+
+## Metrics
+
+Per-Class Detection & Tracking Performance
+
+| Class | TP | FP | FN | Precision | Recall | F1-score | AP |
+|---|---|---|---|---|---|---|---|
+| Bus | 14 | 23 | 36 | 0.383 | 0.286 | 0.327 | 0.334 |
+| Car | 90 | 25 | 11 | 0.782 | 0.891 | 0.833 | 0.836 |
+| Motorcycle | 98 | 6 | 0 | 0.947 | 1.000 | 0.973 | 0.974 |
+| Pickup | 10 | 7 | 0 | 0.588 | 1.000 | 0.741 | 0.821 |
+| Tricycle | 58 | 0 | 0 | 1.000 | 1.000 | 1.000 | 1.000 |
+| Truck | 19 | 7 | 0 | 0.723 | 1.000 | 0.839 | 0.861 |
+| Van | 18 | 7 | 28 | 0.710 | 0.382 | 0.496 | 0.546 |
+
+## Contributing
+
+Contributions are welcome. To contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m "Add your feature"`)
+4. Push to the branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Acknowledgments
+
+- [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
+- [DeepSORT](https://github.com/nwojke/deep_sort)
+- [YOLOv8-DeepSORT-Object-Tracking](https://github.com/MuhammadMoinFaisal/YOLOv8-DeepSORT-Object-Tracking) by Muhammad Moin Faisal
+- [Roboflow](https://roboflow.com) for dataset hosting and management
+
+## Contact
+
+Your Ayodele Steven Salami — [LinkedIn](linkedin.com/in/ayodele-salami-09b71a139) — ayostevsalam@gmail.com
