@@ -41,6 +41,12 @@ This repository provides an end-to-end computer vision pipeline for detecting an
 
 The model was trained on a custom 7-class vehicle dataset to detect and track buses, cars, motorcycles, pickups, tricycles, trucks, and vans in real-world traffic footage.
 
+## Sample Predictions
+<img width="731" height="409" alt="image" src="https://github.com/user-attachments/assets/ccea6c37-95e2-4f4f-8501-be22c0abe81d" />
+
+<img width="733" height="470" alt="image" src="https://github.com/user-attachments/assets/9a5ee91b-ad3a-4ba5-a098-21264296c1ee" />
+
+
 ## Key Results
 
 | Metric | Value |
@@ -76,6 +82,8 @@ ultralytics/yolo/v8/detect/deep_sort_pytorch/deep_sort/deep/checkpoint/
 ```
 
 ## Usage
+### System Workflow
+<img width="673" height="645" alt="image" src="https://github.com/user-attachments/assets/7c915fe0-e6c4-4ca7-8b77-3502e9632863" />
 
 ### Training
 
@@ -147,6 +155,8 @@ YOLOv8-DeepSORT-Object-Tracking/
 ```
 
 ## Metrics
+### Confusion Matrix
+<img width="824" height="618" alt="image" src="https://github.com/user-attachments/assets/45ca7eb5-2c30-4fd2-802b-820eb73881fb" />
 
 Per-Class Detection & Tracking Performance
 
@@ -159,6 +169,10 @@ Per-Class Detection & Tracking Performance
 | Tricycle | 58 | 0 | 0 | 1.000 | 1.000 | 1.000 | 1.000 |
 | Truck | 19 | 7 | 0 | 0.723 | 1.000 | 0.839 | 0.861 |
 | Van | 18 | 7 | 28 | 0.710 | 0.382 | 0.496 | 0.546 |
+
+### Model prediction on Validation Batch
+<img width="836" height="612" alt="image" src="https://github.com/user-attachments/assets/bbb10df8-4469-4006-ae12-f55fd809f4e9" />
+
 
 ## Contributing
 
